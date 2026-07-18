@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "email": "maryam@gmail.com",
+      "password": "1212",
+      "role": "customer"
+    },
+    {
+      "email": "najma@gmail.com",
+      "password": "1414",
+      "role": "customer"
+    }
+  ],
+  "products": [],
+  "bookings": [
+    {
+      "id": 1781903843243,
+      "email": "maryam@gmail.com",
+      "productName": "قلادة ذهب",
+      "date": "2026-06-19T21:17:23.243Z"
+    }
+  ]
+}

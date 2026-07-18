@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Najma Store | نجمة ستور</title>
+    <!-- Google Fonts for a cute vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Decor -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- App Container -->
+    <div id="app">
+        
+        <!-- =======================
+             1. Login / Signup View
+             ======================= -->
+        <section id="login-view" class="view active">
+            <div class="glass-card auth-card">
+                <div class="logo">
+                    <i class="fa-solid fa-star logo-icon"></i>
+                    <h1>نجمة ستور</h1>
+                    <p>متجر إكسسوارات هاند ميد بناتي كيوت ✨</p>
+                </div>
+                
+                <form id="auth-form">
+                    <h2 id="auth-title">تسجيل الدخول</h2>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="كلمة المرور" required>
+                    </div>
+                    
+                    <!-- Role Selection Removed (API assigns Customer automatically) -->
+
+                    <button type="submit" class="btn primary-btn" id="auth-btn">دخول</button>
+                    
+                    <p class="switch-auth">
+                        <span id="auth-switch-text">جديدة معانا؟</span> 
+                        <a href="#" id="switch-auth-link">سجلي حساب جديد</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- =======================
+             2. Admin View
+             ======================= -->
+        <section id="admin-view" class="view hidden">
+            <header class="glass-header">
+                <div class="logo-small">
+                    <i class="fa-solid fa-star"></i> نجمة ستور (لوحة التحكم)
+                </div>
+                <div class="user-info">
+                    <span id="admin-name">أهلاً، أدمن</span>
+                    <button class="btn logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+                </div>
+            </header>
+
+            <main class="container">
+                <div class="glass-card admin-panel">
+                    <h2>✨ إضافة منتج جديد ✨</h2>
+                    <form id="add-product-form">
+                        <div class="input-group">
+                            <i class="fa-solid fa-tag"></i>
+                            <input type="text" id="prod-name" placeholder="اسم المنتج (مثال: اسوارة خرز وردي)" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-image"></i>
+                            <input type="file" id="prod-image" accept="image/*" required style="padding-top: 12px;">
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-money-bill"></i>
+                            <input type="number" id="prod-price" placeholder="سعر المنتج" required>
+                        </div>
+                        <button type="submit" class="btn primary-btn"><i class="fa-solid fa-plus"></i> إضافة للمتجر</button>
+                    </form>
+                </div>
+
+                <div class="products-preview">
+                    <h3>المنتجات المضافة حالياً 🎀</h3>
+                    <div id="admin-products-grid" class="products-grid">
+                        <!-- Admin products injected here -->
+                    </div>
+                </div>
+
+                <div class="admin-bookings">
+                    <h3>حجوزات الزبائن 📦</h3>
+                    <div class="table-container">
+                        <table id="bookings-table">
+                            <thead>
+                                <tr>
+                                    <th>حساب الزبون (الإيميل)</th>
+                                    <th>المنتج المحجوز</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-body">
+                                <!-- Bookings injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+            
+            <!-- Edit Product Modal -->
+            <div id="edit-modal" class="modal hidden">
+                <div class="glass-card modal-content" style="max-width: 500px;">
+                    <span class="close-btn" onclick="closeEditModal()">&times;</span>
+                    <h2>تعديل المنتج ✏️</h2>
+                    <form id="edit-product-form">
+                        <input type="hidden" id="edit-prod-id">
+                        <div class="input-group">
+                            <i class="fa-solid fa-tag"></i>
+                            <input type="text" id="edit-prod-name" placeholder="اسم المنتج" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-image"></i>
+                            <input type="file" id="edit-prod-image" accept="image/*" style="padding-top: 12px;">
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-money-bill"></i>
+                            <input type="number" id="edit-prod-price" placeholder="سعر المنتج" required>
+                        </div>
+                        <button type="submit" class="btn primary-btn" style="background: linear-gradient(135deg, #FFDAB9 0%, #FFA07A 100%);"><i class="fa-solid fa-save"></i> حفظ التعديلات</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- =======================
+             3. Store View (Customer)
+             ======================= -->
+        <section id="store-view" class="view hidden">
+            <header class="glass-header">
+                <div class="logo-small">
+                    <i class="fa-solid fa-star"></i> نجمة ستور
+                </div>
+                <div class="user-info">
+                    <span id="customer-name">أهلاً، زبونتنا الجميلة</span>
+                    <button class="btn logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+                </div>
+            </header>
+
+            <main class="container">
+                <div class="store-hero">
+                    <h2>أهلاً بيكِ في عالم نجمة 🎀</h2>
+                    <p>تصفحي أجمل الإكسسوارات الهاند ميد واختاري اللي يعجبك!</p>
+                </div>
+
+                <div id="customer-products-grid" class="products-grid">
+                    <!-- Products injected here -->
+                </div>
+            </main>
+            
+            <!-- Booking Modal -->
+            <div id="booking-modal" class="modal hidden">
+                <div class="glass-card modal-content">
+                    <span class="close-btn" onclick="closeBookingModal()">&times;</span>
+                    <h2>تأكيد الحجز 💖</h2>
+                    <p id="booking-item-name" class="booking-item-title"></p>
+                    <p>سيتم حجز هذا المنتج لكِ باسم حسابك.</p>
+                    <button class="btn primary-btn" onclick="confirmBooking()"><i class="fa-solid fa-heart"></i> تأكيد الحجز الان</button>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
